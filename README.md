@@ -1,2 +1,2 @@
 # maverick
-a lazy layer in top of maven
+A litte helper tool that tries to make working with maven cozy and refreshing
