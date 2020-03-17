@@ -1,9 +1,17 @@
 #!/bin/bash
 
 compile() {
-	echo ">> compile to xml"
-	pug -P $PWD/pom.pug
-	mv $PWD/pom.html $PWD/pom.xml
+echo ">> compile to xml"
+file=`cat $PWD/pom.pug`
+text="mixin dependency(group, artifact, version)
+	dependency
+		groupId= group
+		artifactId= artifact
+		version= version
+
+doctype xml
+$file"
+echo "$text" | pug -Ps > pom.xml
 }
 
 start_maven() {
@@ -26,14 +34,7 @@ check_requirements
 
 if [[ $1 == "init" ]]; then
 	if [[ ! -e "$PWD/pom.pug" ]]; then
-content="mixin dependency(group, artifact, version)
-	dependency
-		groupId= group
-		artifactId= artifact
-		version= version
-
-doctype xml
-project
+content="project
 	modelVersion 4.0.0
 	groupId com.example
 	artifactId test
