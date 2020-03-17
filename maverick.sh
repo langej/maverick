@@ -26,7 +26,19 @@ check_requirements
 
 if [[ $1 == "init" ]]; then
 	if [[ ! -e "$PWD/pom.pug" ]]; then
-		echo $'doctype xml\nproject\n\tmodelVersion 4.0.0\n\tgroupId\n\tartifactId\n\tversion 0.0.1-SNAPSHOT' > $PWD/pom.pug
+content="mixin dependency(group, artifact, version)
+	dependency
+		groupId= group
+		artifactId= artifact
+		version= version
+
+doctype xml
+project
+	modelVersion 4.0.0
+	groupId com.example
+	artifactId test
+	version 0.0.1-SNAPSHOT"
+echo "$content" > $PWD/pom.pug
 	else
 		echo "pom already exists.."
 	fi
