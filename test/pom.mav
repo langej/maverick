@@ -1,0 +1,27 @@
+modelVersion 4.0
+
+groupId com.example
+artifactId Example
+version 0.0.1-SNAPSHOT
+
+properties
+    property
+        test
+        foo
+        baz
+
+dependencies
+    com.example:Test:0.0.1-SNAPSHOT
+    com.exmaple:Baz:1.0
+
+build
+    plugins
+        plugin
+            id foo
+            executions
+                execution first
+                execution second
+        plugin
+            id baz
+            executions
+                execution first

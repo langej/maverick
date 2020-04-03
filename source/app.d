@@ -1,41 +1,48 @@
 import std.stdio;
 import std.string;
+import std.process;
+import std.algorithm.searching;
+import core.stdc.stdlib;
 
 import filehandler;
 import parser;
 import mavenhandler;
+import outputhandler;
 
-void main(string[] args)
-{
-	if (args.length == 1)
-	{
-		writeln("no arguments..");
+void main(string[] args) {
+	auto splitted = args.split("--");
+
+	parseArgs(splitted[0]);
+	string[] mavenArgs = null;
+	if (splitted.length > 1) {
+		mavenArgs = splitted[1];
 	}
-	else if (args.length == 2)
-	{
-		writeln("one argument..");
-		switch (args[0])
-		{
-		case "help":
-			writeln(help);
-			break;
-		default:
-			writeln(help);
-			break;
-		}
-	}
-	else
-	{
-		string fileName = args[1];
-		string content = getFileContent(fileName);
-		writeln(content);
-		writeln(join(createXml(content).pretty(4), "\n"));
-	}
+	writeln("[1/2] compile to pom.xml ..");
+	string pomContent = getFileContent("pom.mav");
+	writeContentToFile("pom.xml", join(createXml(pomContent).pretty(4), "\n"));
+	writeln(moveCursorUpleft(), green("[1/1] compile to pom.xml > ✓ done"),
+			" > [2/2] run maven ..\n");
+	runMaven(mavenArgs);
 }
+
+private void parseArgs(string[] args) {
+	const bool helpWanted = canFind(args, "help") || canFind(args, "-h") || canFind(args, "--help");
+	if (helpWanted) {
+		writeln(helpText);
+		exit(EXIT_SUCCESS);
+	}
+	const bool initWanted = canFind(args, "init") || canFind(args, "-i") || canFind(args, "--init");
+	if (initWanted) {
+		writeContentToFile("pom.mav", initContent);
+		exit(EXIT_SUCCESS);
+	}
+
+}
+
 /**
  * help text for usage of the app
  */
-const string help = "
+const string helpText = "
 Usage: maverick [options] -- [maven arguments]
 
 options:
@@ -49,4 +56,18 @@ maven arguments:
 
 	for example:
 		`maverick -- clean package -DskipTests`
+";
+
+/**
+ * Content for inital pom
+ */
+const string initContent = "
+modelVersion 4.0
+
+groupId com.example
+artifactId Example
+version 0.0.1-SNAPSHOT
+
+dependencies
+    com.example Test 0.0.1-SNAPSHOT
 ";

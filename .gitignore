@@ -12,3 +12,5 @@ maverick-test-*
 *.o
 *.obj
 *.lst
+
+target
