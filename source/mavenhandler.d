@@ -23,9 +23,9 @@ void runMaven(string[] args) {
         wait(pipes.pid);
 
     // Store lines of output.
-    string[] output;
+    string[] readline;
     foreach (line; pipes.stdout.byLine) {
-        writeln(readLine(format("%s", line)));
+        readLine(format("%s", line));
     }
     // output ~= line.idup;
 
@@ -35,25 +35,34 @@ void runMaven(string[] args) {
         writeln("err - ", line); // errors ~= line.idup;
 }
 
-string readLine(string line) {
+private void readLine(string line) {
     const ERROR = "[ERROR]";
     const WARNING = "[WARNING]";
     const SUCCESS = "SUCCESS";
     const INFO = "[INFO]";
     string result = "";
-    if (line.length > 80)
-        line = format("%s...", line[0 .. 75]);
-    if (canFind(line, ERROR)) {
-        result = format("%s\n", line.replace(ERROR, red("✗")));
-    } else if (canFind(line, WARNING)) {
-        result = format("%s\n", line.replace(WARNING, yellow("⚠")));
-    } else {
-        line = line.replace(INFO, "");
-        if (canFind(line, SUCCESS)) {
-            result = format("%s\n", line.replace(SUCCESS, green(SUCCESS)));
+    if (line.length > 100)
+        line = format("%s ...", line[0 .. 96]);
+    string[] splitted = line.split(" ");
+    if (splitted.length > 1 && !canFind(line,
+            "---------------------------------------------------------------------")) {
+        if (canFind(line, ERROR)) {
+            writeln(PREVIOUS, ERASE_LINE, format("%s", line.replace(ERROR, red("✗"))), "\n");
+        } else if (canFind(line, WARNING)) {
+            writeln(PREVIOUS, ERASE_LINE, format("%s", line.replace(WARNING,
+                    yellow("⚠"))), "\n");
         } else {
-            result = format("%s%s", moveCursorUpleft(), line);
+            line = line.replace(INFO, "");
+            if (canFind(line, SUCCESS)) {
+                writeln(PREVIOUS, ERASE_LINE, format("%s",
+                        line.replace(SUCCESS, green(SUCCESS))), "\n");
+            } else if (canFind(line, "Total time")) {
+                writeln(PREVIOUS, ERASE_LINE, line.replace(INFO, ""), "\n");
+            } else if (canFind(line, "Finished at")) {
+                writeln(PREVIOUS, ERASE_LINE, line.replace(INFO, ""), "\n");
+            } else {
+                writeln(ERASE_LINE, line, PREVIOUS);
+            }
         }
     }
-    return result;
 }

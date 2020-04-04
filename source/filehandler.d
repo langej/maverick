@@ -5,6 +5,10 @@ import std.file;
 import std.string;
 import std.algorithm.searching;
 
+import core.stdc.stdlib;
+
+import outputhandler;
+
 /**
     Tries to read the file and returns the content as string
 */
@@ -19,18 +23,20 @@ string getFileContent(string fileName) {
         }
         return content;
     } else {
-        writeln("File not found..");
+        writeln(yellow("File not found.."));
         return "";
     }
 }
 
 void writeContentToFile(string fileName, string content) {
-    if (exists(fileName)) {
-        File file = File(fileName, "w");
-        file.write(content);
-    } else {
-        writeln("File not found..");
+    if (fileName == "pom.mav") {
+        if (exists(fileName)) {
+            writeln(yellow("pom.mav already exists.."));
+            exit(EXIT_FAILURE);
+        }
     }
+    File file = File(fileName, "w");
+    file.write(content);
 }
 
 unittest {
