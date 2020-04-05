@@ -19,9 +19,9 @@ void main(string[] args) {
 	}
 	writeln("[1/2] compile to pom.xml ..");
 	string pomContent = getFileContent("pom.mav");
-	writeContentToFile("pom.xml", join(createXml(pomContent).pretty(4), "\n"));
+	writeContentToFile("pom.xml", join(parsePomAndCreateXml(pomContent).pretty(4), "\n"));
 	writeln(PREVIOUS, ERASE_LINE, green("[1/1] compile to pom.xml > ✓ done"),
-			" > [2/2] run maven ..\n");
+			" > [2/2] run maven ..");
 	runMaven(mavenArgs);
 }
 

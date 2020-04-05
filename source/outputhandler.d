@@ -3,25 +3,22 @@ module outputhandler;
 import std.stdio;
 import std.format;
 
-void overwriteLine(string text) {
-    writeln(UP_LEFT, text);
-}
-
-string moveCursorUpleft() pure {
-    return UP_LEFT;
-}
-
+/// erases the current line in the terminal via ansi escape sequence
 const ERASE_LINE = "\033[2K";
+/// moves the cursor in the terminal to the previous line via ansi escape sequence
 const PREVIOUS = "\033[1F";
 
+/// colors the given text red
 string red(string text) pure {
     return format("%s%s%s", RED, text, DEFAULT);
 }
 
+/// colors the given text green
 string green(string text) pure {
     return format("%s%s%s", GREEN, text, DEFAULT);
 }
 
+/// colors the given text yellow
 string yellow(string text) pure {
     return format("%s%s%s", YELLOW, text, DEFAULT);
 }

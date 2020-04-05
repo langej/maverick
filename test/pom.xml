@@ -4,7 +4,11 @@
     <artifactId>Example</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <properties>
-        <java.compile.target>1.8</java.compile.target>
+        <property>
+            <test>42</test>
+            <foo>abc</foo>
+            <baz>23.5</baz>
+        </property>
     </properties>
     <dependencies>
         <dependency>
@@ -12,5 +16,27 @@
             <artifactId>Test</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.exmaple</groupId>
+            <artifactId>Baz</artifactId>
+            <version>1.0</version>
+        </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <id>foo</id>
+                <executions>
+                    <execution>first</execution>
+                    <execution>second</execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <id>baz</id>
+                <executions>
+                    <execution>first</execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

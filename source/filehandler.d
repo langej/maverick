@@ -28,6 +28,7 @@ string getFileContent(string fileName) {
     }
 }
 
+/// writes the content to the given file
 void writeContentToFile(string fileName, string content) {
     if (fileName == "pom.mav") {
         if (exists(fileName)) {
@@ -40,7 +41,7 @@ void writeContentToFile(string fileName, string content) {
 }
 
 unittest {
-    const string result = "modelVersion 4.0
+    const string result = "modelVersion 4.0.0
 
 groupId com.example
 artifactId Example
@@ -48,9 +49,9 @@ version 0.0.1-SNAPSHOT
 
 properties
     property
-        test
-        foo
-        baz
+        test 42
+        foo abc
+        baz 23.5
 
 dependencies
     com.example:Test:0.0.1-SNAPSHOT
@@ -67,9 +68,5 @@ build
             id baz
             executions
                 execution first";
-    assert(getFileContent("examples/pom.mav") == result);
-}
-
-unittest {
-    // TODO
+    assert(getFileContent("test/pom.mav") == result);
 }

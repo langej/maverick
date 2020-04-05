@@ -10,7 +10,18 @@ import std.container;
 
 import std.stdio;
 
-Document createXml(string content) {
+/**
+    author: langej
+
+    parses the content and creates a xml document of it.
+ 
+    params:
+        content = the content of the pom.mav file
+
+    returns:
+        xml document from package std.xml
+ */
+Document parsePomAndCreateXml(string content) {
     auto doc = new Document(new Tag("project"));
     string[] lines = content.lineSplitter().array;
 
@@ -92,7 +103,7 @@ private bool isScope(string el) {
     return canFind(scopes, el);
 }
 
-auto getIndentationLevel(string line) {
+private auto getIndentationLevel(string line) {
     return countUntil!(isAlpha)(line);
 }
 
