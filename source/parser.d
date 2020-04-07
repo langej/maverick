@@ -148,5 +148,5 @@ properties
 dependencies
     com.example:Test:0.0.1-SNAPSHOT";
 
-    assert(equal(join(createXml(input).pretty(4), "\n"), expected));
+    assert(equal(join(parsePomAndCreateXml(input).pretty(4), "\n"), expected));
 }

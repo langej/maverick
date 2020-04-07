@@ -3,6 +3,33 @@ module outputhandler;
 import std.stdio;
 import std.format;
 
+import data : status;
+
+void writeError(string text) {
+    writeln(ERASE_LINE, text, "\n");
+    writeStatus();
+}
+
+void writeWarning(string text) {
+    writeln(ERASE_LINE, text, "\n");
+    writeStatus();
+}
+
+void writeUsefulInfo(string text) {
+    writeln(ERASE_LINE, text, "\n");
+    writeStatus();
+}
+
+void writeVerboseInfo(string text) {
+    writeln(ERASE_LINE, cyan("››› "), text, "\n");
+    writeStatus();
+    write(PREVIOUS);
+}
+
+void writeStatus() {
+    writeln(status, PREVIOUS);
+}
+
 /// erases the current line in the terminal via ansi escape sequence
 const ERASE_LINE = "\033[2K";
 /// moves the cursor in the terminal to the previous line via ansi escape sequence
@@ -18,11 +45,31 @@ string green(string text) pure {
     return format("%s%s%s", GREEN, text, DEFAULT);
 }
 
+string bgGreen(string text) {
+    return format("%s%s%s%s", BLACK, BG_GREEN, text, DEFAULT);
+}
+
 /// colors the given text yellow
 string yellow(string text) pure {
     return format("%s%s%s", YELLOW, text, DEFAULT);
 }
 
+/// colors the given text blue
+string blue(string text) {
+    return format("%s%s%s", BLUE, text, DEFAULT);
+}
+
+/// colors the given text light blue
+string lightBlue(string text) {
+    return format("%s%s%s", LIGHT_BLUE, text, DEFAULT);
+}
+
+/// colors the given text cyan
+string cyan(string text) {
+    return format("%s%s%s", CYAN, text, DEFAULT);
+}
+
+private const BLACK = "\033[0;30m";
 private const RED = "\033[0;31m";
 private const LIGHT_RED = "\033[1;31m";
 private const GREEN = "\033[0;32m";
@@ -39,5 +86,7 @@ private const WHITE = "\033[1;37m";
 private const GRAY = "\033[0;30m";
 private const LIGHT_GRAY = "\033[1;37m";
 private const DEFAULT = "\033[0m";
+
+private const BG_GREEN = "\033[0;42m";
 
 private const UP_LEFT = "\r\033[1A\033[0K";

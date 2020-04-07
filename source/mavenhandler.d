@@ -14,7 +14,7 @@ import outputhandler;
  */
 void runMaven(string[] args) {
     if (args.length == 0) {
-        args = ["clean", "package"];
+        args = ["clean", "install"];
     }
     args.insertInPlace(0, "mvn");
     auto pipes = pipeProcess(args, Redirect.stdout | Redirect.stderr);
@@ -22,7 +22,7 @@ void runMaven(string[] args) {
         wait(pipes.pid);
 
     foreach (line; pipes.stdout.byLine) {
-        readLine(format("%s", line));
+        processLine(format("%s", line));
     }
 
     // Store lines of errors.
@@ -31,7 +31,7 @@ void runMaven(string[] args) {
         errors ~= line.idup;
 }
 
-private void readLine(string line) {
+private void processLine(string line) {
     const ERROR = "[ERROR]";
     const WARNING = "[WARNING]";
     const SUCCESS = "SUCCESS";
@@ -39,21 +39,21 @@ private void readLine(string line) {
     const splitted = line.split(" ");
     if (splitted.length > 1 && !canFind(line, dashedLine)) {
         if (canFind(line, ERROR)) {
-            writeln(ERASE_LINE, format("%s", line.replace(ERROR, red("✗"))));
+            writeError(format("%s", line.replace(ERROR, red("✗"))));
         } else if (canFind(line, WARNING)) {
-            writeln(ERASE_LINE, format("%s", line.replace(WARNING, yellow("⚠"))));
+            writeWarning(format("%s", line.replace(WARNING, yellow("⚠"))));
         } else {
             line = line.replace(INFO, "");
             if (canFind(line, SUCCESS)) {
-                writeln(ERASE_LINE, format("%s", line.replace(SUCCESS, green(SUCCESS))));
+                writeUsefulInfo(format("%s", line.replace(SUCCESS, green(SUCCESS))));
             } else if (canFind(line, "Total time")) {
-                writeln(ERASE_LINE, line.replace(INFO, ""));
+                writeUsefulInfo(line.replace(INFO, ""));
             } else if (canFind(line, "Finished at")) {
-                writeln(ERASE_LINE, line.replace(INFO, ""));
+                writeUsefulInfo(line.replace(INFO, ""));
             } else {
                 if (line.length > 100)
                     line = format("%s ...", line[0 .. 96]);
-                writeln(ERASE_LINE, line, PREVIOUS);
+                writeVerboseInfo(line);
             }
         }
     }
