@@ -2,7 +2,7 @@
 
 A litte helper tool that tries to make working with maven cozy and refreshing
 
-enables you to write your pom.xml with less verbose syntax than xml. It's inspired by [pug](https://pugjs.org/api/getting-started.html) but with less features.
+enables you to write your pom.xml with less verbose syntax than xml. It's inspired by [pug](https://pugjs.org/api/getting-started.html) but kept simpler.
 
 So that this:
 
