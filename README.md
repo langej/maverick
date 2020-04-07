@@ -69,3 +69,62 @@ dependencies
                 groupId <groupId>
                 artifactId <artifactId>
 ```
+
+## Output
+
+Also the output gets filtered for only necessary information:
+
+Instead of this:
+```
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< com.example:Example >-------------------------
+[INFO] Building Example 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ Example ---
+[INFO] Deleting [...]/maverick/examples/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ Example ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory [...]/maverick/examples/src/main/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ Example ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ Example ---
+[WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] skip non existing resourceDirectory [...]/maverick/examples/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ Example ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ Example ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ Example ---
+[WARNING] JAR will be empty - no content was marked for inclusion!
+[INFO] Building jar: [...]/maverick/examples/target/Example-0.0.1-SNAPSHOT.jar
+[INFO] 
+[INFO] --- maven-install-plugin:2.4:install (default-install) @ Example ---
+[INFO] Installing [...]/maverick/examples/target/Example-0.0.1-SNAPSHOT.jar to [...]/.m2/repository/com/example/Example/0.0.1-SNAPSHOT/Example-0.0.1-SNAPSHOT.jar
+[INFO] Installing [...]/maverick/examples/pom.xml to [...]/.m2/repository/com/example/Example/0.0.1-SNAPSHOT/Example-0.0.1-SNAPSHOT.pom
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.606 s
+[INFO] Finished at: 2020-04-07T09:00:10Z
+[INFO] ------------------------------------------------------------------------
+```
+
+you only get this:
+```
+⚠ Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+⚠ Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+⚠ JAR will be empty - no content was marked for inclusion!
+ BUILD SUCCESS
+ Total time:  6.637 s
+ Finished at: 2020-04-07T08:59:50Z
+[1/2] compile to pom.xml ➜  ✓ done 🞂 [2/2] run maven ➜  ✓ done 
+```
+Only warnings, errors and the final build information will be shown
