@@ -1,0 +1,8 @@
+{
+    "name": "maverick",
+    "authors": ["Jonathan Lange"],
+    "description": "A minimal D application.",
+    "copyright": "Copyright © 2020, Jonathan Lange",
+    "license": "proprietary",
+    "dependencies": {}
+}
